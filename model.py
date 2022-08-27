@@ -23,7 +23,7 @@ def get_pred(preg,plgluco,distolicBP,Trithk,insuline,bmi,diapedgr,age):
 
     from sklearn.neural_network import MLPClassifier
 
-    model = MLPClassifier(random_state=1,max_iter=300)
+    model = MLPClassifier(random_state=1,max_iter=100)
     model.fit(X_train,y_train)
 
     return int(model.predict(values))
