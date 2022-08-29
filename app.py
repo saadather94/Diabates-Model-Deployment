@@ -1,14 +1,20 @@
-import re
 from flask import Flask, render_template, request
-import model
+import jsonify
+import requests
+import pickle
+import numpy as np
+import sklearn
+from sklearn.preprocessing import MinMaxScaler
+import dia_model
 
+model_pk = pickle.load(open('dia_pred_model.pkl', 'rb'))
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/',methods=['GET'])
 def index():
     return render_template("home.html")
 
-@app.route('/Home')
+@app.route('/Home',methods=['GET'])
 def home():
     return render_template("home.html")
 
@@ -23,8 +29,8 @@ def submit():
         Diapedgr= request.form["diapedgrs"]
         Age= request.form["age"]
         DistolicBP= request.form["distolicBP"]
-
-        pred = model.get_pred(Preg,Plgluco,DistolicBP,Trithk,Insuline,Bmi,Diapedgr,Age)
+    
+        pred = dia_model.get_pred(Preg,Plgluco,DistolicBP,Trithk,Insuline,Bmi,Diapedgr,Age)
         if(pred == 0):
             prd = 'Non Diabetic'
         else:
